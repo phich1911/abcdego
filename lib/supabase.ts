@@ -80,3 +80,21 @@ export function onAuthChange(cb: (user: User | null) => void) {
   const { data } = sb.auth.onAuthStateChange((_event, session) => cb(session?.user ?? null));
   return () => data.subscription.unsubscribe();
 }
+
+export async function signInWithGoogle() {
+  const sb = getClient();
+  if (!sb) return;
+  await sb.auth.signInWithOAuth({
+    provider: "google",
+    options: { redirectTo: `${window.location.origin}/` },
+  });
+}
+
+export async function signInWithFacebook() {
+  const sb = getClient();
+  if (!sb) return;
+  await sb.auth.signInWithOAuth({
+    provider: "facebook",
+    options: { redirectTo: `${window.location.origin}/` },
+  });
+}
