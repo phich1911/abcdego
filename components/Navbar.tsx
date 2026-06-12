@@ -6,11 +6,12 @@ import { useEffect, useRef, useState } from "react";
 import { getProgress } from "@/lib/progress";
 
 const COURSE_ITEMS = [
-  { href: "/courses", label: "ดูทั้งหมด" },
-  { href: "/course/palad-amphoe", label: "⚖️ ปลัดอำเภอ" },
-  { href: "/course/math-101", label: "📐 คณิตศาสตร์" },
-  { href: "/course/eng-101", label: "🌏 English" },
-  { href: "/course/code-101", label: "💻 Coding" },
+  { href: "/courses", label: "ดูทั้งหมด", group: null },
+  { href: "/course/palad-amphoe", label: "⚖️ ลักษณะปกครองท้องที่", group: "ปลัดอำเภอ" },
+  { href: "/course/asr-2497", label: "🛡️ กองอาสารักษาดินแดน", group: "ปลัดอำเภอ" },
+  { href: "/course/math-101", label: "📐 คณิตศาสตร์", group: "ทั่วไป" },
+  { href: "/course/eng-101", label: "🌏 English", group: "ทั่วไป" },
+  { href: "/course/code-101", label: "💻 Coding", group: "ทั่วไป" },
 ];
 
 export default function Navbar() {
@@ -93,23 +94,36 @@ export default function Navbar() {
                   boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
                 }}
               >
-                {COURSE_ITEMS.map((item, i) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setCoursesOpen(false)}
-                    className="flex items-center px-4 py-3 text-sm transition-colors hover:bg-white/5"
-                    style={{
-                      color: pathname === item.href ? "#fff" : "rgba(255,255,255,0.55)",
-                      borderTop: i === 1 ? "1px solid rgba(124,58,237,0.15)" : undefined,
-                      fontWeight: i === 0 ? 600 : 400,
-                      letterSpacing: i === 0 ? "0.1em" : "0.03em",
-                      fontSize: i === 0 ? "0.7rem" : "0.85rem",
-                    }}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
+                {(() => {
+                  let lastGroup: string | null = undefined as unknown as string;
+                  return COURSE_ITEMS.map((item, i) => {
+                    const showHeader = item.group !== null && item.group !== lastGroup;
+                    lastGroup = item.group ?? null;
+                    return (
+                      <div key={item.href}>
+                        {showHeader && (
+                          <div className="px-4 pt-3 pb-1 text-xs font-bold tracking-widest uppercase" style={{ color: "rgba(124,58,237,0.8)", borderTop: i > 0 ? "1px solid rgba(124,58,237,0.15)" : undefined }}>
+                            {item.group}
+                          </div>
+                        )}
+                        <Link
+                          href={item.href}
+                          onClick={() => setCoursesOpen(false)}
+                          className="flex items-center px-4 py-2.5 text-sm transition-colors hover:bg-white/5"
+                          style={{
+                            color: pathname === item.href ? "#fff" : "rgba(255,255,255,0.55)",
+                            borderTop: i === 1 ? "1px solid rgba(124,58,237,0.15)" : undefined,
+                            fontWeight: i === 0 ? 600 : 400,
+                            letterSpacing: i === 0 ? "0.1em" : "0.03em",
+                            fontSize: i === 0 ? "0.7rem" : "0.85rem",
+                          }}
+                        >
+                          {item.label}
+                        </Link>
+                      </div>
+                    );
+                  });
+                })()}
               </div>
             )}
           </div>
