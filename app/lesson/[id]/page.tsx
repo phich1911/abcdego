@@ -3,7 +3,7 @@
 import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { notFound } from "next/navigation";
-import { getLesson, getCourse } from "@/lib/data";
+import { getLesson, getCourse, LESSONS } from "@/lib/data";
 import { completeLesson } from "@/lib/progress";
 import Navbar from "@/components/Navbar";
 
@@ -15,6 +15,9 @@ export default function LessonPage({ params }: { params: Promise<{ id: string }>
   const lesson = lessonData;
 
   const course = getCourse(lesson.courseId);
+  const nextLesson = LESSONS.find(
+    (l) => l.courseId === lesson.courseId && l.order === lesson.order + 1
+  );
   const [stepIndex, setStepIndex] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [fillInput, setFillInput] = useState("");
@@ -80,21 +83,36 @@ export default function LessonPage({ params }: { params: Promise<{ id: string }>
             >
               ⚡ +{lesson.xpReward} XP
             </div>
-            <div className="flex gap-4 justify-center mt-4">
-              <button
-                onClick={() => router.push(`/course/${lesson.courseId}`)}
-                className="px-6 py-3 rounded-full font-bold text-white glow"
-                style={{ background: "linear-gradient(135deg, var(--primary), var(--primary-light))" }}
-              >
-                กลับไปที่คอร์ส
-              </button>
-              <button
-                onClick={() => router.push("/courses")}
-                className="px-6 py-3 rounded-full font-bold"
-                style={{ border: "1px solid var(--border)", color: "var(--text-muted)" }}
-              >
-                ดูคอร์สอื่น
-              </button>
+            <div className="flex flex-col items-center gap-3 mt-4 w-full max-w-xs mx-auto">
+              {nextLesson && (
+                <button
+                  onClick={() => router.push(`/lesson/${nextLesson.id}`)}
+                  className="w-full px-6 py-3 rounded-full font-bold text-white glow transition-all hover:scale-105"
+                  style={{ background: "linear-gradient(135deg, var(--primary), var(--primary-light))" }}
+                >
+                  บทเรียนถัดไป → {nextLesson.title}
+                </button>
+              )}
+              <div className="flex gap-3 w-full">
+                <button
+                  onClick={() => router.push(`/course/${lesson.courseId}`)}
+                  className="flex-1 px-4 py-3 rounded-full font-bold"
+                  style={{
+                    background: nextLesson ? "transparent" : "linear-gradient(135deg, var(--primary), var(--primary-light))",
+                    border: nextLesson ? "1px solid var(--border)" : "none",
+                    color: nextLesson ? "var(--text-muted)" : "#fff",
+                  }}
+                >
+                  กลับไปที่คอร์ส
+                </button>
+                <button
+                  onClick={() => router.push("/courses")}
+                  className="flex-1 px-4 py-3 rounded-full font-bold"
+                  style={{ border: "1px solid var(--border)", color: "var(--text-muted)" }}
+                >
+                  ดูคอร์สอื่น
+                </button>
+              </div>
             </div>
           </div>
         </div>
