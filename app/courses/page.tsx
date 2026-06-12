@@ -7,6 +7,25 @@ import { getCourseProgress } from "@/lib/progress";
 import { useEffect, useMemo, useState } from "react";
 import Fuse from "fuse.js";
 
+const CATEGORY_META: Record<string, { icon: string; description: string; borderColor: string; badgeBg: string; badgeColor: string; badgeBorder: string }> = {
+  "DSI": {
+    icon: "🔎",
+    description: "กฎหมายและกระบวนการสอบสวนคดีพิเศษ กรมสอบสวนคดีพิเศษ",
+    borderColor: "rgba(220,38,38,0.3)",
+    badgeBg: "rgba(220,38,38,0.12)",
+    badgeColor: "#fca5a5",
+    badgeBorder: "rgba(220,38,38,0.3)",
+  },
+  "ปลัดอำเภอ": {
+    icon: "🏛️",
+    description: "กฎหมายและระเบียบที่เกี่ยวข้องกับงานปลัดอำเภอ",
+    borderColor: "rgba(124,58,237,0.25)",
+    badgeBg: "rgba(124,58,237,0.15)",
+    badgeColor: "#a78bfa",
+    badgeBorder: "rgba(124,58,237,0.3)",
+  },
+};
+
 const fuse = new Fuse(COURSES, {
   keys: ["title", "description", "tag", "category"],
   threshold: 0.4,
@@ -71,7 +90,8 @@ export default function CoursesPage() {
     return fuse.search(q).map((r) => r.item);
   }, [query]);
 
-  const categorized = results.filter((c) => c.category === "ปลัดอำเภอ");
+  const categoryOrder = ["DSI", "ปลัดอำเภอ"];
+  const allCategories = categoryOrder.filter((cat) => results.some((c) => c.category === cat));
   const general = results.filter((c) => !c.category);
 
   return (
@@ -127,24 +147,28 @@ export default function CoursesPage() {
           </div>
         )}
 
-        {/* ปลัดอำเภอ section */}
-        {categorized.length > 0 && (
-          <section className="mb-14">
-            <div className="flex items-center gap-3 mb-6 pb-4" style={{ borderBottom: "1px solid rgba(124,58,237,0.25)" }}>
-              <span className="text-2xl">🏛️</span>
-              <div>
-                <h2 className="text-xl font-black" style={{ color: "#fff" }}>หมวด ปลัดอำเภอ</h2>
-                <p className="text-xs mt-0.5" style={{ color: "var(--text-muted)" }}>กฎหมายและระเบียบที่เกี่ยวข้องกับงานปลัดอำเภอ</p>
+        {/* Category sections */}
+        {allCategories.map((cat) => {
+          const meta = CATEGORY_META[cat];
+          const courses = results.filter((c) => c.category === cat);
+          return (
+            <section key={cat} className="mb-14">
+              <div className="flex items-center gap-3 mb-6 pb-4" style={{ borderBottom: `1px solid ${meta.borderColor}` }}>
+                <span className="text-2xl">{meta.icon}</span>
+                <div>
+                  <h2 className="text-xl font-black" style={{ color: "#fff" }}>หมวด {cat}</h2>
+                  <p className="text-xs mt-0.5" style={{ color: "var(--text-muted)" }}>{meta.description}</p>
+                </div>
+                <span className="ml-auto text-xs font-bold px-3 py-1 rounded-full" style={{ background: meta.badgeBg, color: meta.badgeColor, border: `1px solid ${meta.badgeBorder}` }}>
+                  {courses.length} วิชา
+                </span>
               </div>
-              <span className="ml-auto text-xs font-bold px-3 py-1 rounded-full" style={{ background: "rgba(124,58,237,0.15)", color: "#a78bfa", border: "1px solid rgba(124,58,237,0.3)" }}>
-                {categorized.length} วิชา
-              </span>
-            </div>
-            <div className="grid md:grid-cols-2 gap-6">
-              {categorized.map((c) => <CourseCard key={c.id} course={c} pct={progresses[c.id] ?? 0} />)}
-            </div>
-          </section>
-        )}
+              <div className="grid md:grid-cols-2 gap-6">
+                {courses.map((c) => <CourseCard key={c.id} course={c} pct={progresses[c.id] ?? 0} />)}
+              </div>
+            </section>
+          );
+        })}
 
         {/* General section */}
         {general.length > 0 && (

@@ -14,6 +14,13 @@ const fuse = new Fuse(COURSES, {
 
 const COURSE_GROUPS = [
   {
+    label: "🔎 DSI",
+    items: [
+      { href: "/course/dsi-2547", label: "🔎 การสอบสวนคดีพิเศษ" },
+      { href: "/course/dsi-criminal", label: "⚖️ คดีพิเศษและกฎหมายที่เกี่ยวข้อง" },
+    ],
+  },
+  {
     label: "🏛️ ปลัดอำเภอ",
     items: [
       { href: "/course/palad-amphoe", label: "⚖️ ลักษณะปกครองท้องที่ 2457" },

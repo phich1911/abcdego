@@ -26,6 +26,28 @@ export type Step =
 
 export const COURSES: Course[] = [
   {
+    id: "dsi-2547",
+    title: "การสอบสวนคดีพิเศษ",
+    description: "พ.ร.บ. การสอบสวนคดีพิเศษ พ.ศ. 2547 อำนาจ หน้าที่ และกระบวนการ DSI",
+    icon: "🔎",
+    color: "#dc2626",
+    totalLessons: 8,
+    xpReward: 800,
+    tag: "กฎหมายพิเศษ",
+    category: "DSI",
+  },
+  {
+    id: "dsi-criminal",
+    title: "คดีพิเศษและกฎหมายที่เกี่ยวข้อง",
+    description: "ประเภทคดีพิเศษ เขตอำนาจ และกฎหมายที่ DSI ใช้บังคับ",
+    icon: "⚖️",
+    color: "#b91c1c",
+    totalLessons: 6,
+    xpReward: 600,
+    tag: "กฎหมายพิเศษ",
+    category: "DSI",
+  },
+  {
     id: "asr-2497",
     title: "กองอาสารักษาดินแดน (อส.)",
     description: "พ.ร.บ. กองอาสารักษาดินแดน พ.ศ. 2497 คุณสมบัติ หน้าที่ และโครงสร้าง อส.",
