@@ -1,25 +1,37 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+let _client: SupabaseClient | null = null;
 
-export const supabase = createClient(url, key);
+function getClient(): SupabaseClient | null {
+  if (_client) return _client;
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) return null;
+  _client = createClient(url, key);
+  return _client;
+}
 
 export async function trackVisit() {
   if (typeof window === "undefined") return;
-  const key = "abcdego_visited";
-  if (sessionStorage.getItem(key)) return;
-  sessionStorage.setItem(key, "1");
-  await supabase.from("visitors").insert({});
+  const sb = getClient();
+  if (!sb) return;
+  const visited = "abcdego_visited";
+  if (sessionStorage.getItem(visited)) return;
+  sessionStorage.setItem(visited, "1");
+  await sb.from("visitors").insert({});
 }
 
 export async function getVisitorCount(): Promise<number> {
-  const { count } = await supabase.from("visitors").select("*", { count: "exact", head: true });
+  const sb = getClient();
+  if (!sb) return 0;
+  const { count } = await sb.from("visitors").select("*", { count: "exact", head: true });
   return count ?? 0;
 }
 
 export async function getLeaderboard(limit = 10) {
-  const { data } = await supabase
+  const sb = getClient();
+  if (!sb) return [];
+  const { data } = await sb
     .from("leaderboard")
     .select("name, xp")
     .order("xp", { ascending: false })
@@ -28,6 +40,8 @@ export async function getLeaderboard(limit = 10) {
 }
 
 export async function submitScore(name: string, xp: number) {
-  const { error } = await supabase.from("leaderboard").insert({ name, xp });
+  const sb = getClient();
+  if (!sb) return false;
+  const { error } = await sb.from("leaderboard").insert({ name, xp });
   return !error;
 }
