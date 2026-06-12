@@ -27,7 +27,7 @@ export default function CoursePage({ params }: { params: Promise<{ id: string }>
   return (
     <>
       <Navbar />
-      <main className="max-w-3xl mx-auto px-6 py-12">
+      <main className="max-w-3xl mx-auto px-6 pt-28 pb-12">
         {/* Header */}
         <div className="glass rounded-2xl p-8 mb-8">
           <div className="flex items-center gap-4 mb-4">

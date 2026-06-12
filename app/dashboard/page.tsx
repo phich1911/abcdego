@@ -27,7 +27,7 @@ export default function DashboardPage() {
   return (
     <>
       <Navbar />
-      <main className="max-w-4xl mx-auto px-6 py-12">
+      <main className="max-w-4xl mx-auto px-6 pt-28 pb-12">
         <h1 className="text-4xl font-black mb-2">ความก้าวหน้าของคุณ</h1>
         <p style={{ color: "var(--text-muted)" }} className="mb-10">
           ทุกบทเรียนที่เรียนจะบันทึกไว้ที่นี่

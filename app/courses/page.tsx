@@ -20,7 +20,7 @@ export default function CoursesPage() {
   return (
     <>
       <Navbar />
-      <main className="max-w-5xl mx-auto px-6 py-12">
+      <main className="max-w-5xl mx-auto px-6 pt-28 pb-12">
         <h1 className="text-4xl font-black mb-2">คอร์สทั้งหมด</h1>
         <p className="mb-10" style={{ color: "var(--text-muted)" }}>
           เลือกวิชาที่คุณอยากเรียน แล้วเริ่มได้เลย

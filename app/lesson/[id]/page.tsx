@@ -105,7 +105,7 @@ export default function LessonPage({ params }: { params: Promise<{ id: string }>
   return (
     <>
       <Navbar />
-      <main className="max-w-2xl mx-auto px-6 py-10">
+      <main className="max-w-2xl mx-auto px-6 pt-24 pb-10">
         {/* Top bar */}
         <div className="flex items-center gap-4 mb-8">
           <button

@@ -8,7 +8,7 @@ export default function Home() {
       <Navbar />
       <main className="flex-1">
         {/* Hero */}
-        <section className="relative overflow-hidden px-6 py-24 text-center">
+        <section className="relative overflow-hidden px-6 pt-40 pb-24 text-center">
           {/* Background blobs */}
           <div
             className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full opacity-20 blur-[80px] pointer-events-none"
