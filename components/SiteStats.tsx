@@ -13,7 +13,7 @@ export default function SiteStats() {
 
   useEffect(() => {
     getVisitorCount().then(setVisitors);
-    getLeaderboard(10).then(setBoard);
+    getLeaderboard(5).then(setBoard);
   }, []);
 
   return (
