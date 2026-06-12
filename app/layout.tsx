@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Prompt } from "next/font/google";
 import "./globals.css";
 import StarField from "@/components/StarField";
 
-const inter = Inter({ subsets: ["latin"] });
+const prompt = Prompt({ subsets: ["latin", "thai"], weight: ["300", "400", "500", "600", "700", "800", "900"] });
 
 export const metadata: Metadata = {
   title: "AbcdeGo — Learn. Play. Level Up.",
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="th" className="h-full">
-      <body className={`${inter.className} min-h-full flex flex-col`}>
+      <body className={`${prompt.className} min-h-full flex flex-col`}>
         <StarField />
         <div className="relative z-10 flex flex-col flex-1">
           {children}
