@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
+import CourseIcon from "@/components/CourseIcon";
 import { COURSES } from "@/lib/data";
 
 const POPULAR_IDS = ["palad-amphoe", "asr-2497", "kp-general"];
@@ -95,12 +96,7 @@ export default function Home() {
                 href={`/course/${course.id}`}
                 className="glass rounded-2xl p-6 flex flex-col gap-3 transition-all hover:scale-[1.02] hover:glow cursor-pointer group"
               >
-                <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl animate-float"
-                  style={{ background: `${course.color}22` }}
-                >
-                  {course.icon}
-                </div>
+                <CourseIcon icon={course.icon} icon3d={course.icon3d} color={course.color} size={56} />
                 <span
                   className="text-xs font-semibold px-2 py-0.5 rounded-full w-fit"
                   style={{ background: `${course.color}22`, color: course.color }}

@@ -4,6 +4,7 @@ import { use, useEffect, useState } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
+import CourseIcon from "@/components/CourseIcon";
 import { getCourse, getLessonsForCourse } from "@/lib/data";
 import { isLessonCompleted, getCourseProgress } from "@/lib/progress";
 
@@ -31,12 +32,7 @@ export default function CoursePage({ params }: { params: Promise<{ id: string }>
         {/* Header */}
         <div className="glass rounded-2xl p-8 mb-8">
           <div className="flex items-center gap-4 mb-4">
-            <div
-              className="w-16 h-16 rounded-2xl flex items-center justify-center text-4xl"
-              style={{ background: `${course.color}22` }}
-            >
-              {course.icon}
-            </div>
+            <CourseIcon icon={course.icon} icon3d={course.icon3d} color={course.color} size={64} />
             <div>
               <span
                 className="text-xs font-semibold px-2 py-0.5 rounded-full"

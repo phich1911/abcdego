@@ -3,6 +3,7 @@ export type Course = {
   title: string;
   description: string;
   icon: string;
+  icon3d?: string;
   color: string;
   totalLessons: number;
   xpReward: number;
@@ -30,6 +31,7 @@ export const COURSES: Course[] = [
     title: "ความรู้ทั่วไป (ก.พ.)",
     description: "วิชาความสามารถทั่วไป ตรรกะ คณิตศาสตร์ และภาษาไทย สำหรับสอบ ก.พ.",
     icon: "📝",
+    icon3d: "https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@latest/assets/Memo/3D/memo_3d.png",
     color: "#0891b2",
     totalLessons: 0,
     xpReward: 0,
@@ -41,6 +43,7 @@ export const COURSES: Course[] = [
     title: "ภาษาอังกฤษ (ก.พ.)",
     description: "ข้อสอบภาษาอังกฤษระดับ ก.พ. ไวยากรณ์ คำศัพท์ และการอ่านจับใจความ",
     icon: "🌐",
+    icon3d: "https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@latest/assets/Globe with meridians/3D/globe_with_meridians_3d.png",
     color: "#0e7490",
     totalLessons: 0,
     xpReward: 0,
@@ -52,6 +55,7 @@ export const COURSES: Course[] = [
     title: "การสอบสวนคดีพิเศษ",
     description: "พ.ร.บ. การสอบสวนคดีพิเศษ พ.ศ. 2547 อำนาจ หน้าที่ และกระบวนการ DSI",
     icon: "🔎",
+    icon3d: "https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@latest/assets/Right-pointing magnifying glass/3D/right-pointing_magnifying_glass_3d.png",
     color: "#dc2626",
     totalLessons: 8,
     xpReward: 800,
@@ -63,6 +67,7 @@ export const COURSES: Course[] = [
     title: "คดีพิเศษและกฎหมายที่เกี่ยวข้อง",
     description: "ประเภทคดีพิเศษ เขตอำนาจ และกฎหมายที่ DSI ใช้บังคับ",
     icon: "⚖️",
+    icon3d: "https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@latest/assets/Balance scale/3D/balance_scale_3d.png",
     color: "#b91c1c",
     totalLessons: 6,
     xpReward: 600,
@@ -74,6 +79,7 @@ export const COURSES: Course[] = [
     title: "กองอาสารักษาดินแดน (อส.)",
     description: "พ.ร.บ. กองอาสารักษาดินแดน พ.ศ. 2497 คุณสมบัติ หน้าที่ และโครงสร้าง อส.",
     icon: "🛡️",
+    icon3d: "https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@latest/assets/Shield/3D/shield_3d.png",
     color: "#16a34a",
     totalLessons: 10,
     xpReward: 1000,
@@ -84,7 +90,8 @@ export const COURSES: Course[] = [
     id: "palad-amphoe",
     title: "ลักษณะปกครองท้องที่",
     description: "พ.ร.บ. ลักษณะปกครองท้องที่ พ.ศ. 2457 ทีละมาตรา พร้อมข้อสอบ",
-    icon: "⚖️",
+    icon: "🏛️",
+    icon3d: "https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@latest/assets/Classical building/3D/classical_building_3d.png",
     color: "#0ea5e9",
     totalLessons: 20,
     xpReward: 2000,
@@ -96,6 +103,7 @@ export const COURSES: Course[] = [
     title: "คณิตศาสตร์พื้นฐาน",
     description: "จากตัวเลขสู่พีชคณิต เรียนรู้ทีละขั้น",
     icon: "📐",
+    icon3d: "https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@latest/assets/Triangular ruler/3D/triangular_ruler_3d.png",
     color: "#7c3aed",
     totalLessons: 3,
     xpReward: 300,
@@ -106,6 +114,7 @@ export const COURSES: Course[] = [
     title: "English Essentials",
     description: "Vocabulary, grammar, and everyday conversations",
     icon: "🌏",
+    icon3d: "https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@latest/assets/Globe showing Asia-Australia/3D/globe_showing_asia-australia_3d.png",
     color: "#0891b2",
     totalLessons: 3,
     xpReward: 300,
@@ -116,6 +125,7 @@ export const COURSES: Course[] = [
     title: "Coding for Beginners",
     description: "เขียนโปรแกรมครั้งแรกไม่ต้องกลัว",
     icon: "💻",
+    icon3d: "https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@latest/assets/Laptop/3D/laptop_3d.png",
     color: "#059669",
     totalLessons: 3,
     xpReward: 300,

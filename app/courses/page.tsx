@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
+import CourseIcon from "@/components/CourseIcon";
 import { COURSES } from "@/lib/data";
 import { getCourseProgress } from "@/lib/progress";
 import { useEffect, useMemo, useState } from "react";
@@ -46,12 +47,7 @@ function CourseCard({ course, pct }: { course: (typeof COURSES)[0]; pct: number 
       className="glass rounded-2xl p-6 flex flex-col gap-4 transition-all hover:scale-[1.02] hover:glow"
     >
       <div className="flex items-start justify-between">
-        <div
-          className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl"
-          style={{ background: `${course.color}22` }}
-        >
-          {course.icon}
-        </div>
+        <CourseIcon icon={course.icon} icon3d={course.icon3d} color={course.color} size={56} />
         {pct === 100 && (
           <span className="text-sm px-2 py-1 rounded-full font-bold" style={{ background: "rgba(16,185,129,0.15)", color: "var(--accent-green)" }}>
             ✓ เสร็จแล้ว
