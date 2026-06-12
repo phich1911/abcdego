@@ -1,4 +1,4 @@
-import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { createClient, SupabaseClient, User } from "@supabase/supabase-js";
 
 let _client: SupabaseClient | null = null;
 
@@ -44,4 +44,39 @@ export async function submitScore(name: string, xp: number) {
   if (!sb) return false;
   const { error } = await sb.from("leaderboard").insert({ name, xp });
   return !error;
+}
+
+// Auth
+export async function signUp(email: string, password: string) {
+  const sb = getClient();
+  if (!sb) return { user: null, error: "ไม่สามารถเชื่อมต่อได้" };
+  const { data, error } = await sb.auth.signUp({ email, password });
+  return { user: data.user, error: error?.message ?? null };
+}
+
+export async function signIn(email: string, password: string) {
+  const sb = getClient();
+  if (!sb) return { user: null, error: "ไม่สามารถเชื่อมต่อได้" };
+  const { data, error } = await sb.auth.signInWithPassword({ email, password });
+  return { user: data.user, error: error?.message ?? null };
+}
+
+export async function signOut() {
+  const sb = getClient();
+  if (!sb) return;
+  await sb.auth.signOut();
+}
+
+export async function getUser(): Promise<User | null> {
+  const sb = getClient();
+  if (!sb) return null;
+  const { data } = await sb.auth.getUser();
+  return data.user;
+}
+
+export function onAuthChange(cb: (user: User | null) => void) {
+  const sb = getClient();
+  if (!sb) return () => {};
+  const { data } = sb.auth.onAuthStateChange((_event, session) => cb(session?.user ?? null));
+  return () => data.subscription.unsubscribe();
 }

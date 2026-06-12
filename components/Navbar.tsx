@@ -5,6 +5,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { getProgress } from "@/lib/progress";
 import { COURSES } from "@/lib/data";
+import { onAuthChange, signOut } from "@/lib/supabase";
+import AuthModal from "@/components/AuthModal";
 import Fuse from "fuse.js";
 
 const fuse = new Fuse(COURSES, {
@@ -59,10 +61,28 @@ export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [openGroup, setOpenGroup] = useState<string | null>(null);
+  const [authOpen, setAuthOpen] = useState(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => { setXp(getProgress().xp); }, [pathname]);
+
+  useEffect(() => {
+    return onAuthChange((user) => setUserEmail(user?.email ?? null));
+  }, []);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+        setUserMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -211,6 +231,41 @@ export default function Navbar() {
               style={{ background: "rgba(245,158,11,0.12)", color: "var(--accent)", border: "1px solid rgba(245,158,11,0.2)", letterSpacing: "0.1em" }}>
               ⚡ {xp} XP
             </div>
+
+            {/* Auth */}
+            {userEmail ? (
+              <div ref={userMenuRef} className="relative">
+                <button
+                  onClick={() => setUserMenuOpen((v) => !v)}
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-black transition-all hover:opacity-80"
+                  style={{ background: "linear-gradient(135deg, var(--primary), var(--primary-light))", color: "#fff" }}
+                  title={userEmail}
+                >
+                  {userEmail[0].toUpperCase()}
+                </button>
+                {userMenuOpen && (
+                  <div className="absolute top-10 right-0 rounded-xl overflow-hidden min-w-[160px]"
+                    style={{ background: "rgba(12,10,26,0.97)", border: "1px solid rgba(124,58,237,0.25)", backdropFilter: "blur(16px)", boxShadow: "0 8px 32px rgba(0,0,0,0.5)" }}>
+                    <p className="px-4 py-3 text-xs truncate" style={{ color: "rgba(255,255,255,0.4)", borderBottom: "1px solid rgba(124,58,237,0.1)" }}>{userEmail}</p>
+                    <button
+                      onClick={async () => { await signOut(); setUserMenuOpen(false); }}
+                      className="w-full text-left px-4 py-3 text-sm transition-colors hover:bg-white/5"
+                      style={{ color: "#f87171" }}
+                    >
+                      ออกจากระบบ
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <button
+                onClick={() => setAuthOpen(true)}
+                className="text-xs font-bold px-4 py-1.5 rounded-full transition-all hover:opacity-90"
+                style={{ background: "linear-gradient(135deg, var(--primary), var(--primary-light))", color: "#fff", letterSpacing: "0.05em" }}
+              >
+                เข้าสู่ระบบ
+              </button>
+            )}
           </div>
 
           {/* Mobile: search icon + hamburger */}
@@ -266,6 +321,18 @@ export default function Navbar() {
               PROGRESS
             </Link>
             <span className="text-xs font-bold pt-1" style={{ color: "var(--accent)" }}>⚡ {xp} XP</span>
+            <div style={{ height: 1, background: "rgba(124,58,237,0.1)" }} />
+            {userEmail ? (
+              <div className="flex items-center justify-between py-1">
+                <span className="text-xs truncate" style={{ color: "rgba(255,255,255,0.4)" }}>{userEmail}</span>
+                <button onClick={async () => { await signOut(); setMenuOpen(false); }} className="text-xs font-bold ml-3" style={{ color: "#f87171" }}>ออก</button>
+              </div>
+            ) : (
+              <button onClick={() => { setMenuOpen(false); setAuthOpen(true); }}
+                className="text-xs font-bold py-2 tracking-wider" style={{ color: "var(--primary-light)" }}>
+                เข้าสู่ระบบ / สมัครสมาชิก →
+              </button>
+            )}
           </div>
         )}
       </nav>
@@ -339,6 +406,13 @@ export default function Navbar() {
             </div>
           </div>
         </div>
+      )}
+
+      {authOpen && (
+        <AuthModal
+          onClose={() => setAuthOpen(false)}
+          onSuccess={(email) => setUserEmail(email)}
+        />
       )}
     </>
   );
