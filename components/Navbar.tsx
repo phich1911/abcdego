@@ -67,6 +67,7 @@ export default function Navbar() {
   const [displayName, setDisplayName] = useState<string | null>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [nameModalOpen, setNameModalOpen] = useState(false);
+  const [editProfileOpen, setEditProfileOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
@@ -276,6 +277,13 @@ export default function Navbar() {
                     >
                       📊 ความก้าวหน้า
                     </Link>
+                    <button
+                      onClick={() => { setUserMenuOpen(false); setEditProfileOpen(true); }}
+                      className="w-full text-left flex items-center gap-2 px-4 py-2.5 text-sm transition-colors hover:bg-white/5"
+                      style={{ color: "rgba(255,255,255,0.65)" }}
+                    >
+                      ✏️ แก้ไขโปรไฟล์
+                    </button>
                     <div style={{ height: 1, background: "rgba(124,58,237,0.08)" }} />
                     <button
                       onClick={async () => { await signOut(); setUserMenuOpen(false); }}
@@ -447,6 +455,14 @@ export default function Navbar() {
 
       {nameModalOpen && (
         <DisplayNameModal onDone={(name) => { setDisplayName(name); setNameModalOpen(false); }} />
+      )}
+
+      {editProfileOpen && (
+        <DisplayNameModal
+          current={displayName ?? ""}
+          onDone={(name) => { setDisplayName(name); setEditProfileOpen(false); }}
+          onClose={() => setEditProfileOpen(false)}
+        />
       )}
     </>
   );
